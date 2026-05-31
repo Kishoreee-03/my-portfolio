@@ -602,3 +602,361 @@ document.addEventListener('keydown', e => {
         closeCertModal();
     }
 });
+
+/* ═══════════════════════════════════════════════════════════════════
+   20. INTERACTIVE MOCK BI DASHBOARD LOGIC
+═══════════════════════════════════════════════════════════════════ */
+const salesData = [
+    { region: 'North', category: 'Technology', month: 'Jan', sales: 4200, quantity: 24, profit: 840 },
+    { region: 'North', category: 'Furniture', month: 'Feb', sales: 3100, quantity: 18, profit: 465 },
+    { region: 'North', category: 'Office Supplies', month: 'Mar', sales: 1800, quantity: 30, profit: 360 },
+    { region: 'South', category: 'Technology', month: 'Apr', sales: 5500, quantity: 32, profit: 1210 },
+    { region: 'South', category: 'Furniture', month: 'May', sales: 2900, quantity: 15, profit: 290 },
+    { region: 'South', category: 'Office Supplies', month: 'Jan', sales: 1200, quantity: 20, profit: 180 },
+    { region: 'East', category: 'Technology', month: 'Feb', sales: 6100, quantity: 38, profit: 1464 },
+    { region: 'East', category: 'Furniture', month: 'Mar', sales: 4000, quantity: 22, profit: 600 },
+    { region: 'East', category: 'Office Supplies', month: 'Apr', sales: 2200, quantity: 35, profit: 440 },
+    { region: 'West', category: 'Technology', month: 'May', sales: 4800, quantity: 28, profit: 1056 },
+    { region: 'West', category: 'Furniture', month: 'Jan', sales: 3500, quantity: 21, profit: 525 },
+    { region: 'West', category: 'Office Supplies', month: 'Feb', sales: 1900, quantity: 25, profit: 285 },
+    { region: 'North', category: 'Technology', month: 'Mar', sales: 5000, quantity: 29, profit: 1100 },
+    { region: 'South', category: 'Furniture', month: 'Apr', sales: 3200, quantity: 16, profit: 480 },
+    { region: 'East', category: 'Office Supplies', month: 'May', sales: 2500, quantity: 40, profit: 500 },
+    { region: 'West', category: 'Technology', month: 'Jan', sales: 5200, quantity: 30, profit: 1196 }
+];
+
+let selectedRegion = 'all';
+let selectedCategory = 'all';
+
+function initDashboard() {
+    const regionButtons = document.querySelectorAll('#regionFilters .filter-btn');
+    const categoryButtons = document.querySelectorAll('#categoryFilters .filter-btn');
+
+    if (!regionButtons.length || !categoryButtons.length) return;
+
+    regionButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            regionButtons.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            selectedRegion = btn.getAttribute('data-filter');
+            updateDashboard();
+        });
+    });
+
+    categoryButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            categoryButtons.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            selectedCategory = btn.getAttribute('data-filter');
+            updateDashboard();
+        });
+    });
+
+    updateDashboard();
+}
+
+function updateDashboard() {
+    // Filter data
+    const filtered = salesData.filter(d => {
+        const matchReg = selectedRegion === 'all' || d.region === selectedRegion;
+        const matchCat = selectedCategory === 'all' || d.category === selectedCategory;
+        return matchReg && matchCat;
+    });
+
+    // Calculate KPIs
+    let totalSales = 0;
+    let totalQuantity = 0;
+    let totalProfit = 0;
+
+    filtered.forEach(d => {
+        totalSales += d.sales;
+        totalQuantity += d.quantity;
+        totalProfit += d.profit;
+    });
+
+    const avgMargin = totalSales > 0 ? (totalProfit / totalSales) * 100 : 0;
+
+    // Update KPI Displays
+    const kpiSalesEl = document.getElementById('kpiSales');
+    const kpiQtyEl = document.getElementById('kpiQuantity');
+    const kpiMarginEl = document.getElementById('kpiMargin');
+
+    if (kpiSalesEl) kpiSalesEl.textContent = `$${totalSales.toLocaleString()}`;
+    if (kpiQtyEl) kpiQtyEl.textContent = totalQuantity.toLocaleString();
+    if (kpiMarginEl) kpiMarginEl.textContent = `${avgMargin.toFixed(1)}%`;
+
+    // Monthly Chart Math
+    const monthlyMap = { 'Jan': 0, 'Feb': 0, 'Mar': 0, 'Apr': 0, 'May': 0 };
+    filtered.forEach(d => {
+        if (monthlyMap[d.month] !== undefined) {
+            monthlyMap[d.month] += d.sales;
+        }
+    });
+
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May'];
+    const maxSales = Math.max(...months.map(m => monthlyMap[m]), 1);
+
+    const chartContainer = document.getElementById('barChartContainer');
+    if (chartContainer) {
+        chartContainer.innerHTML = '';
+        months.forEach(m => {
+            const val = monthlyMap[m];
+            const pct = (val / maxSales) * 100;
+
+            const barWrap = document.createElement('div');
+            barWrap.className = 'chart-bar-wrap';
+            barWrap.innerHTML = `
+                <div class="chart-bar-fill" style="height: ${pct}%" data-value="$${val.toLocaleString()}"></div>
+                <span class="chart-label">${m}</span>
+            `;
+            chartContainer.appendChild(barWrap);
+        });
+    }
+
+    // Dynamic Insights Injections
+    const insightList = document.getElementById('insightList');
+    if (insightList) {
+        insightList.innerHTML = '';
+        
+        let highestMonth = 'Jan';
+        let highestSales = 0;
+        months.forEach(m => {
+            if (monthlyMap[m] > highestSales) {
+                highestSales = monthlyMap[m];
+                highestMonth = m;
+            }
+        });
+
+        const insights = [];
+        
+        if (filtered.length === 0) {
+            insights.push('No transactions match the selected filter combination.');
+        } else {
+            insights.push(`Highest performing month under current filters is <strong>${highestMonth}</strong> with sales of <strong>$${highestSales.toLocaleString()}</strong>.`);
+            
+            const marginText = avgMargin > 20 
+                ? `Average profit margin is exceptionally strong at <strong>${avgMargin.toFixed(1)}%</strong>.`
+                : `Average profit margin is stable at <strong>${avgMargin.toFixed(1)}%</strong>.`;
+            insights.push(marginText);
+
+            if (selectedRegion !== 'all') {
+                insights.push(`The <strong>${selectedRegion}</strong> region generated a total of <strong>$${totalSales.toLocaleString()}</strong> across <strong>${filtered.length}</strong> core categories.`);
+            } else {
+                // Find top region
+                const regMap = {};
+                filtered.forEach(d => { regMap[d.region] = (regMap[d.region] || 0) + d.sales; });
+                let topReg = 'East';
+                let topRegSales = 0;
+                Object.keys(regMap).forEach(r => {
+                    if (regMap[r] > topRegSales) {
+                        topRegSales = regMap[r];
+                        topReg = r;
+                    }
+                });
+                insights.push(`The <strong>${topReg}</strong> region is leading in sales performance under selected filters.`);
+            }
+
+            if (selectedCategory !== 'all') {
+                insights.push(`Selected category <strong>${selectedCategory}</strong> units sold: <strong>${totalQuantity} items</strong>.`);
+            }
+        }
+
+        insights.forEach(ins => {
+            const li = document.createElement('li');
+            li.innerHTML = ins;
+            insightList.appendChild(li);
+        });
+    }
+}
+
+// Initialise on load
+initDashboard();
+
+/* ═══════════════════════════════════════════════════════════════════
+   21. INTERACTIVE PROJECT DETAILS MODAL
+═══════════════════════════════════════════════════════════════════ */
+const projectsDetails = {
+    '1': {
+        title: 'Sales Data Analysis Dashboard',
+        icon: 'fa-chart-line',
+        role: 'Lead Data Analyst',
+        date: 'Jan 2026',
+        tags: ['Power BI', 'SQL', 'Python'],
+        problem: 'Stakeholders struggled with slow, manual reporting, taking up to 5 days to consolidate global sales data, delaying critical strategic decisions.',
+        solution: 'Developed an end-to-end automated BI pipeline. Extracted and cleaned transaction data using SQL CTEs and window functions. Engineered a star-schema data model and built a highly interactive Power BI dashboard featuring drill-downs, dynamic filtering, and predictive sales forecasting.',
+        results: [
+            'Reduced management reporting time by 40%.',
+            'Identified $45K in underperforming inventory within the first 30 days.',
+            'Enabled self-service analysis for 12+ stakeholders.'
+        ],
+        github: 'https://github.com/Kishoreee-03/my-portfolio',
+        demo: 'https://kishoreee-03.github.io/my-portfolio'
+    },
+    '2': {
+        title: 'Supply Chain Replenishment System',
+        icon: 'fa-boxes',
+        role: 'Data Scientist & ML Developer',
+        date: 'Nov 2025',
+        tags: ['Python', 'Pandas', 'Scikit-Learn'],
+        problem: 'An e-commerce partner faced frequent stockouts of high-demand goods alongside excessive waste in perishables due to rule-of-thumb ordering patterns.',
+        solution: 'Built a predictive forecasting engine using Random Forest Regressors and XGBoost models trained on 2+ years of weekly inventory and sales data. Automated alert thresholds based on safety stock calculations and lead times.',
+        results: [
+            'Decreased critical stockout instances by 28%.',
+            'Improved inventory turnover rate by 14%.',
+            'Saved approximately 18 hours/week in manual replenishment scheduling.'
+        ],
+        github: 'https://github.com/Kishoreee-03',
+        demo: '#'
+    },
+    '3': {
+        title: 'Rice Variety Classification AI',
+        icon: 'fa-seedling',
+        role: 'Deep Learning Engineer',
+        date: 'Aug 2025',
+        tags: ['TensorFlow', 'Deep Learning', 'Computer Vision'],
+        problem: 'Manual identification and grading of commercial rice grains is labor-intensive and prone to human classification error, impacting quality control in agriculture packaging.',
+        solution: 'Engineered a Convolutional Neural Network (CNN) in TensorFlow/Keras. Applied data augmentation techniques (rotations, flips, zooming) to handle dataset imbalance and trained a custom MobileNetV2 architecture with transfer learning.',
+        results: [
+            'Achieved 97.4% accuracy across 5 distinct rice varieties.',
+            'Reduced sorting quality control throughput times from minutes to milliseconds per batch.',
+            'Published visual confusion matrix and feature maps showcasing deep layer activation.'
+        ],
+        github: 'https://github.com/Kishoreee-03',
+        demo: '#'
+    }
+};
+
+const projectModal = document.getElementById('projectModal');
+const projectModalBody = document.getElementById('projectModalBody');
+const projectModalClose = document.getElementById('projectModalClose');
+
+function openProjectModal(id) {
+    const details = projectsDetails[id];
+    if (!details || !projectModal || !projectModalBody) return;
+
+    const tagsHtml = details.tags.map(t => `<span>${t}</span>`).join('');
+    const resultsHtml = details.results.map(r => `<li>${r}</li>`).join('');
+    
+    let demoBtnHtml = `<a href="${details.demo}" target="_blank" class="btn btn-primary"><i class="fas fa-external-link-alt"></i> Live Demo</a>`;
+    if (details.demo === '#') {
+        demoBtnHtml = `<button class="btn btn-primary" disabled style="opacity:0.3; cursor:not-allowed;"><i class="fas fa-external-link-alt"></i> Demo Unavailable</button>`;
+    }
+
+    projectModalBody.innerHTML = `
+        <div class="proj-modal-header">
+            <h2>${details.title}</h2>
+            <div class="proj-modal-meta">
+                <span><i class="fas fa-briefcase"></i> <strong>Role:</strong> ${details.role}</span>
+                <span><i class="fas fa-calendar-alt"></i> <strong>Date:</strong> ${details.date}</span>
+            </div>
+            <div class="proj-modal-tags">
+                ${tagsHtml}
+            </div>
+        </div>
+        
+        <div class="proj-modal-content-grid">
+            <div class="proj-modal-sec">
+                <h4><i class="fas fa-exclamation-circle"></i> The Challenge</h4>
+                <p>${details.problem}</p>
+            </div>
+            
+            <div class="proj-modal-sec">
+                <h4><i class="fas fa-cogs"></i> Technical Solution</h4>
+                <p>${details.solution}</p>
+            </div>
+            
+            <div class="proj-modal-sec">
+                <h4><i class="fas fa-chart-line"></i> Key Outcomes & Results</h4>
+                <ul>
+                    ${resultsHtml}
+                </ul>
+            </div>
+        </div>
+        
+        <div class="proj-modal-actions">
+            ${demoBtnHtml}
+            <a href="${details.github}" target="_blank" class="btn btn-outline"><i class="fab fa-github"></i> Source Code</a>
+        </div>
+    `;
+
+    projectModal.classList.add('active');
+    projectModal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeProjectModal() {
+    if (!projectModal) return;
+    projectModal.classList.remove('active');
+    projectModal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+}
+
+// Add triggers to all project cards
+document.querySelectorAll('.project-card[data-project]').forEach(card => {
+    card.addEventListener('click', (e) => {
+        // Prevent trigger if clicking an external link inside the card
+        if (e.target.closest('.proj-link-icon')) {
+            return;
+        }
+        
+        const id = card.getAttribute('data-project');
+        if (id) {
+            openProjectModal(id);
+        }
+    });
+});
+
+if (projectModalClose) projectModalClose.addEventListener('click', closeProjectModal);
+if (projectModal) {
+    projectModal.querySelector('.cert-modal-overlay').addEventListener('click', closeProjectModal);
+}
+
+document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && projectModal && projectModal.classList.contains('active')) {
+        closeProjectModal();
+    }
+});
+
+/* ═══════════════════════════════════════════════════════════════════
+   22. INTERACTIVE HTML RESUME MODAL LOGIC
+═══════════════════════════════════════════════════════════════════ */
+const resumeModal = document.getElementById('resumeModal');
+const resumeModalClose = document.getElementById('resumeModalClose');
+const resumeBtn = document.getElementById('resumeBtn');
+const aboutResumeBtn = document.getElementById('aboutResumeBtn');
+const printResumeBtn = document.getElementById('printResumeBtn');
+
+function openResumeModal(e) {
+    if (e) e.preventDefault();
+    if (!resumeModal) return;
+    resumeModal.classList.add('active');
+    resumeModal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeResumeModal() {
+    if (!resumeModal) return;
+    resumeModal.classList.remove('active');
+    resumeModal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+}
+
+if (resumeBtn) resumeBtn.addEventListener('click', openResumeModal);
+if (aboutResumeBtn) aboutResumeBtn.addEventListener('click', openResumeModal);
+if (resumeModalClose) resumeModalClose.addEventListener('click', closeResumeModal);
+if (resumeModal) {
+    resumeModal.querySelector('.cert-modal-overlay').addEventListener('click', closeResumeModal);
+}
+
+document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && resumeModal && resumeModal.classList.contains('active')) {
+        closeResumeModal();
+    }
+});
+
+if (printResumeBtn) {
+    printResumeBtn.addEventListener('click', () => {
+        window.print();
+    });
+}
+

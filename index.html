@@ -315,68 +315,135 @@
             <div class="projects-grid">
 
                 <!-- Project 1 -->
-                <div class="project-card">
+                <div class="project-card" data-project="1">
                     <div class="project-header">
                         <div class="project-icon"><i class="fas fa-chart-line"></i></div>
                         <div class="project-links">
-                            <a href="#" title="GitHub" id="proj1Github"><i class="fab fa-github"></i></a>
-                            <a href="#" title="Live Demo" id="proj1Demo"><i class="fas fa-external-link-alt"></i></a>
+                            <a href="https://github.com/Kishoreee-03/my-portfolio" target="_blank" title="GitHub" class="proj-link-icon"><i class="fab fa-github"></i></a>
+                            <a href="https://kishoreee-03.github.io/my-portfolio" target="_blank" title="Live Demo" class="proj-link-icon"><i class="fas fa-external-link-alt"></i></a>
                         </div>
                     </div>
                     <div class="project-num">01</div>
                     <h3 class="project-title">Sales Data Analysis Dashboard</h3>
-                    <p class="project-desc">An interactive BI dashboard visualizing global sales metrics with predictive
-                        forecasting capabilities, enabling stakeholders to identify key growth opportunities and reduce
-                        reporting time by 40%.</p>
+                    <p class="project-desc">An interactive BI dashboard visualizing global sales metrics with predictive forecasting capabilities, enabling stakeholders to identify key growth opportunities and reduce reporting time by 40%.</p>
                     <div class="project-tags">
                         <span>Power BI</span>
                         <span>SQL</span>
                         <span>Python</span>
                     </div>
+                    <span class="project-details-hint">Click card for details <i class="fas fa-arrow-right"></i></span>
                 </div>
 
                 <!-- Project 2 -->
-                <div class="project-card">
+                <div class="project-card" data-project="2">
                     <div class="project-header">
                         <div class="project-icon"><i class="fas fa-boxes"></i></div>
                         <div class="project-links">
-                            <a href="#" title="GitHub" id="proj2Github"><i class="fab fa-github"></i></a>
-                            <a href="#" title="Live Demo" id="proj2Demo"><i class="fas fa-external-link-alt"></i></a>
+                            <a href="https://github.com/Kishoreee-03" target="_blank" title="GitHub" class="proj-link-icon"><i class="fab fa-github"></i></a>
+                            <a href="#" class="proj-link-icon demo-placeholder"><i class="fas fa-external-link-alt"></i></a>
                         </div>
                     </div>
                     <div class="project-num">02</div>
                     <h3 class="project-title">Supply Chain Replenishment System</h3>
-                    <p class="project-desc">An optimized ML-powered replenishment system to predict stockouts and
-                        automate inventory management workflows, significantly improving supply chain efficiency and
-                        reducing wastage.</p>
+                    <p class="project-desc">An optimized ML-powered replenishment system to predict stockouts and automate inventory management workflows, significantly improving supply chain efficiency and reducing wastage.</p>
                     <div class="project-tags">
                         <span>Python</span>
                         <span>Pandas</span>
                         <span>Scikit-Learn</span>
                     </div>
+                    <span class="project-details-hint">Click card for details <i class="fas fa-arrow-right"></i></span>
                 </div>
 
                 <!-- Project 3 -->
-                <div class="project-card">
+                <div class="project-card" data-project="3">
                     <div class="project-header">
                         <div class="project-icon"><i class="fas fa-seedling"></i></div>
                         <div class="project-links">
-                            <a href="#" title="GitHub" id="proj3Github"><i class="fab fa-github"></i></a>
-                            <a href="#" title="Live Demo" id="proj3Demo"><i class="fas fa-external-link-alt"></i></a>
+                            <a href="https://github.com/Kishoreee-03" target="_blank" title="GitHub" class="proj-link-icon"><i class="fab fa-github"></i></a>
+                            <a href="#" class="proj-link-icon demo-placeholder"><i class="fas fa-external-link-alt"></i></a>
                         </div>
                     </div>
                     <div class="project-num">03</div>
                     <h3 class="project-title">Rice Variety Classification AI</h3>
-                    <p class="project-desc">A deep learning framework utilizing Convolutional Neural Networks (CNNs) to
-                        accurately classify rice varieties from image datasets, achieving high precision results in
-                        agricultural AI research.</p>
+                    <p class="project-desc">A deep learning framework utilizing Convolutional Neural Networks (CNNs) to accurately classify rice varieties from image datasets, achieving high precision results in agricultural AI research.</p>
                     <div class="project-tags">
                         <span>TensorFlow</span>
                         <span>Deep Learning</span>
                         <span>Computer Vision</span>
                     </div>
+                    <span class="project-details-hint">Click card for details <i class="fas fa-arrow-right"></i></span>
                 </div>
 
+            </div>
+
+            <!-- ===================== INTERACTIVE BI DASHBOARD ===================== -->
+            <div class="dashboard-wrapper fade-up">
+                <div class="dashboard-header-block">
+                    <span class="dashboard-badge"><i class="fas fa-chart-bar"></i> Interactive Sandbox</span>
+                    <h3>Live Sales Analytics Dashboard Demo</h3>
+                    <p>Demonstrating front-end dynamic analysis logic. Interact with the filters below to query and slice the sales dataset in real time.</p>
+                </div>
+                
+                <div class="dashboard-container">
+                    <!-- Filters Panel -->
+                    <div class="dashboard-filters">
+                        <div class="filter-group">
+                            <label><i class="fas fa-map-marker-alt"></i> Region</label>
+                            <div class="filter-buttons" id="regionFilters">
+                                <button class="filter-btn active" data-filter="all">All Regions</button>
+                                <button class="filter-btn" data-filter="North">North</button>
+                                <button class="filter-btn" data-filter="South">South</button>
+                                <button class="filter-btn" data-filter="East">East</button>
+                                <button class="filter-btn" data-filter="West">West</button>
+                            </div>
+                        </div>
+                        
+                        <div class="filter-group">
+                            <label><i class="fas fa-tags"></i> Category</label>
+                            <div class="filter-buttons" id="categoryFilters">
+                                <button class="filter-btn active" data-filter="all">All Categories</button>
+                                <button class="filter-btn" data-filter="Technology">Technology</button>
+                                <button class="filter-btn" data-filter="Furniture">Furniture</button>
+                                <button class="filter-btn" data-filter="Office Supplies">Office Supplies</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- KPI Metrics -->
+                    <div class="dashboard-kpis">
+                        <div class="kpi-card">
+                            <div class="kpi-icon"><i class="fas fa-dollar-sign"></i></div>
+                            <div class="kpi-val" id="kpiSales">$0</div>
+                            <div class="kpi-lbl">Total Sales Revenue</div>
+                        </div>
+                        <div class="kpi-card">
+                            <div class="kpi-icon"><i class="fas fa-shopping-basket"></i></div>
+                            <div class="kpi-val" id="kpiQuantity">0</div>
+                            <div class="kpi-lbl">Total Units Sold</div>
+                        </div>
+                        <div class="kpi-card">
+                            <div class="kpi-icon"><i class="fas fa-percent"></i></div>
+                            <div class="kpi-val" id="kpiMargin">0%</div>
+                            <div class="kpi-lbl">Average Profit Margin</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Charts & Insights -->
+                    <div class="dashboard-charts-grid">
+                        <div class="dashboard-chart-card">
+                            <h4>Monthly Sales Revenue ($)</h4>
+                            <div class="bar-chart-container" id="barChartContainer">
+                                <!-- Dynamic CSS Bars will be injected here by JS -->
+                            </div>
+                        </div>
+                        <div class="dashboard-insight-card">
+                            <h4>Key Analytical Insights</h4>
+                            <ul class="insight-list" id="insightList">
+                                <!-- Dynamic insight bullets will be injected here by JS -->
+                            </ul>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -481,6 +548,132 @@
             <button class="cert-modal-close" aria-label="Close modal">&times;</button>
             <div class="cert-modal-body">
                 <iframe id="certModalFrame" src="" frameborder="0"></iframe>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===================== PROJECT DETAILS MODAL ===================== -->
+    <div id="projectModal" class="cert-modal" aria-hidden="true" role="dialog">
+        <div class="cert-modal-overlay"></div>
+        <div class="cert-modal-content project-modal-content">
+            <button class="cert-modal-close" id="projectModalClose" aria-label="Close modal">&times;</button>
+            <div class="project-modal-body" id="projectModalBody">
+                <!-- Dynamic content will be injected by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- ===================== INTERACTIVE RESUME MODAL ===================== -->
+    <div id="resumeModal" class="cert-modal" aria-hidden="true" role="dialog">
+        <div class="cert-modal-overlay"></div>
+        <div class="cert-modal-content resume-modal-content">
+            <button class="cert-modal-close" id="resumeModalClose" aria-label="Close modal">&times;</button>
+            
+            <!-- Controls panel inside modal (fixed at top) -->
+            <div class="resume-modal-header">
+                <h3>Curriculum Vitae</h3>
+                <button class="btn btn-primary btn-sm" id="printResumeBtn"><i class="fas fa-print"></i> Print / Save PDF</button>
+            </div>
+            
+            <!-- Resume A4 Sheet Container -->
+            <div class="resume-modal-body printable-resume" id="printableResume">
+                <!-- Header -->
+                <div class="resume-header">
+                    <h2>NANDU PARASA</h2>
+                    <p class="resume-title">Data Analyst & AI Developer Intern</p>
+                    <div class="resume-contact-grid">
+                        <span><i class="fas fa-envelope"></i> kishoreparasa22@gmail.com</span>
+                        <span><i class="fas fa-phone"></i> +91 73861 62858</span>
+                        <span><i class="fab fa-linkedin"></i> linkedin.com/in/parasa-kishore-9839b036a</span>
+                        <span><i class="fab fa-github"></i> github.com/Kishoreee-03</span>
+                        <span><i class="fas fa-map-marker-alt"></i> Vijayawada, AP, India</span>
+                    </div>
+                </div>
+                
+                <hr class="resume-divider">
+                
+                <!-- Career Objective -->
+                <div class="resume-section">
+                    <h3 class="resume-sec-title"><i class="fas fa-bullseye"></i> Career Objective</h3>
+                    <p class="resume-text">Detail-oriented Data Analyst with a passion for discovering patterns within complex datasets. Deeply passionate about statistical analysis, machine learning, and business intelligence. Aiming to leverage analytical skills and technical expertise in a growth-oriented organization to build data-driven systems.</p>
+                </div>
+                
+                <!-- Experience -->
+                <div class="resume-section">
+                    <h3 class="resume-sec-title"><i class="fas fa-briefcase"></i> Experience</h3>
+                    <div class="resume-item">
+                        <div class="resume-item-header">
+                            <div>
+                                <strong class="resume-item-title">Data Analyst & AI Developer Intern (Training)</strong>
+                                <span class="resume-item-org">Besant Technologies</span>
+                            </div>
+                            <span class="resume-item-date">2026 – Present</span>
+                        </div>
+                        <ul class="resume-bullets">
+                            <li>Selected for the incubation training program focusing on Full Stack, Data Analytics, Data Science, AI, and Cloud deployment.</li>
+                            <li>Building machine learning systems for classification, predictive analytics, and exploratory data analysis.</li>
+                            <li>Designing interactive dashboards in Power BI and Tableau to present key analytics.</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- Education -->
+                <div class="resume-section">
+                    <h3 class="resume-sec-title"><i class="fas fa-graduation-cap"></i> Education</h3>
+                    <div class="resume-item">
+                        <div class="resume-item-header">
+                            <div>
+                                <strong class="resume-item-title">Bachelor of Technology (Artificial Intelligence & Data Science)</strong>
+                                <span class="resume-item-org">JCT College of Engineering and Technology, Coimbatore, TN</span>
+                            </div>
+                            <span class="resume-item-date">2022 – 2026</span>
+                        </div>
+                        <p class="resume-item-meta">CGPA: 8.0 / 10.0</p>
+                    </div>
+                    <div class="resume-item">
+                        <div class="resume-item-header">
+                            <div>
+                                <strong class="resume-item-title">Intermediate (MPC)</strong>
+                                <span class="resume-item-org">AP Residential Junior College, Nagarjuna Sagar, AP</span>
+                            </div>
+                            <span class="resume-item-date">2020 – 2022</span>
+                        </div>
+                        <p class="resume-item-meta">Percentage: 51%</p>
+                    </div>
+                    <div class="resume-item">
+                        <div class="resume-item-header">
+                            <div>
+                                <strong class="resume-item-title">Secondary School Certificate (10th SSC)</strong>
+                                <span class="resume-item-org">St. Joseph's English Medium High School, Vijayawada, AP</span>
+                            </div>
+                            <span class="resume-item-date">2019 – 2020</span>
+                        </div>
+                        <p class="resume-item-meta">Percentage: 95.17%</p>
+                    </div>
+                </div>
+                
+                <!-- Skills Grid -->
+                <div class="resume-section">
+                    <h3 class="resume-sec-title"><i class="fas fa-tools"></i> Core Skills</h3>
+                    <div class="resume-skills-grid">
+                        <div><strong>Languages:</strong> Python, SQL (Joins, CTEs, Windows, Aggs)</div>
+                        <div><strong>Libraries:</strong> Pandas, NumPy, Matplotlib, Seaborn, Scikit-Learn, TensorFlow</div>
+                        <div><strong>BI Tools:</strong> Power BI, Tableau, Dashboard Design</div>
+                        <div><strong>Concepts:</strong> EDA, Preprocessing, ML Modeling, Deep Learning, CV</div>
+                        <div><strong>Tools:</strong> Excel, Jupyter, Git/GitHub, VS Code, Google Colab</div>
+                    </div>
+                </div>
+                
+                <!-- Certifications -->
+                <div class="resume-section">
+                    <h3 class="resume-sec-title"><i class="fas fa-award"></i> Key Certifications</h3>
+                    <div class="resume-certs-list">
+                        <span>• NPTEL Python for Data Science</span>
+                        <span>• Oracle Cloud Infrastructure Associate</span>
+                        <span>• Full Stack Developer - Cognifyz Technologies</span>
+                        <span>• IEEE ICPCSN Research Presentation</span>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
