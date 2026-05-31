@@ -1,0 +1,11 @@
+{
+  "name": "kishore-parasa-portfolio",
+  "version": "1.0.0",
+  "description": "Kishore Parasa - Professional Data Analyst Portfolio",
+  "scripts": {
+    "dev": "npx serve -l 8000 .",
+    "start": "npx serve -l 8000 ."
+  },
+  "keywords": ["portfolio", "data-analyst", "kishore-parasa"],
+  "author": "Kishore Parasa"
+}

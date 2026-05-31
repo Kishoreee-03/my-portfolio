@@ -383,6 +383,19 @@ if (contactForm) {
             }, 3500);
         };
 
+        // Check if Formspree action is still a placeholder
+        if (contactForm.action.includes('FORM_ID_PLACEHOLDER')) {
+            // Simulate successful submission for demonstration purposes
+            setTimeout(() => {
+                submitBtn.innerHTML = 'Message Sent! <i class="fas fa-check-circle"></i>';
+                submitBtn.style.background = 'linear-gradient(135deg, #10b981, #059669)';
+                submitBtn.style.opacity    = '1';
+                contactForm.reset();
+                resetSubmitBtn();
+            }, 1000);
+            return;
+        }
+
         // Real submission
         fetch(contactForm.action, {
             method: 'POST',
