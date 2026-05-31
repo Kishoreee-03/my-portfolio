@@ -10,6 +10,15 @@
     <meta property="og:title" content="Nandu Parasa | Data Analyst">
     <meta property="og:description" content="Portfolio of Nandu Parasa – Data Analyst & AI Enthusiast.">
 
+    <!-- Google Analytics (GA4) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-XXXXXXXXXX');
+    </script>
+
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -517,18 +526,18 @@
                     </div>
                 </div>
 
-                <form class="contact-form" id="contactForm">
+                <form class="contact-form" id="contactForm" action="https://formspree.io/f/FORM_ID_PLACEHOLDER" method="POST">
                     <div class="form-group">
                         <label for="name">Your Name</label>
-                        <input type="text" id="name" placeholder="John Doe" required>
+                        <input type="text" id="name" name="name" placeholder="John Doe" required>
                     </div>
                     <div class="form-group">
                         <label for="email">Your Email</label>
-                        <input type="email" id="email" placeholder="john@example.com" required>
+                        <input type="email" id="email" name="email" placeholder="john@example.com" required>
                     </div>
                     <div class="form-group">
                         <label for="message">Message</label>
-                        <textarea id="message" rows="5" placeholder="I'd like to discuss an opportunity..."
+                        <textarea id="message" name="message" rows="5" placeholder="I'd like to discuss an opportunity..."
                             required></textarea>
                     </div>
                     <button type="submit" class="btn btn-primary" id="submitBtn">

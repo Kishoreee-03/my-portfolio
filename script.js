@@ -350,7 +350,7 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 });
 
 /* ═══════════════════════════════════════════════════════════════════
-   10. CONTACT FORM — Simulated Submit
+   10. CONTACT FORM — Real Submit via Formspree
 ═══════════════════════════════════════════════════════════════════ */
 const contactForm = document.getElementById('contactForm');
 const submitBtn   = document.getElementById('submitBtn');
@@ -370,20 +370,48 @@ if (contactForm) {
         submitBtn.innerHTML = 'Sending <i class="fas fa-spinner fa-spin"></i>';
         submitBtn.style.opacity = '0.85';
 
-        // Simulate async send
-        setTimeout(() => {
-            submitBtn.innerHTML = 'Message Sent! <i class="fas fa-check-circle"></i>';
-            submitBtn.style.background = 'linear-gradient(135deg, #10b981, #059669)';
-            submitBtn.style.opacity    = '1';
-            contactForm.reset();
+        // Prepare form data
+        const formData = new FormData(contactForm);
 
+        // Reset helper
+        const resetSubmitBtn = () => {
             setTimeout(() => {
                 submitBtn.disabled = false;
                 submitBtn.innerHTML = 'Send Message <i class="fas fa-paper-plane"></i>';
                 submitBtn.style.background = '';
                 submitBtn.style.opacity    = '';
             }, 3500);
-        }, 1800);
+        };
+
+        // Real submission
+        fetch(contactForm.action, {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'Accept': 'application/json'
+            }
+        })
+        .then(response => {
+            if (response.ok) {
+                submitBtn.innerHTML = 'Message Sent! <i class="fas fa-check-circle"></i>';
+                submitBtn.style.background = 'linear-gradient(135deg, #10b981, #059669)';
+                submitBtn.style.opacity    = '1';
+                contactForm.reset();
+                resetSubmitBtn();
+            } else {
+                submitBtn.innerHTML = 'Failed to Send <i class="fas fa-exclamation-circle"></i>';
+                submitBtn.style.background = 'linear-gradient(135deg, #ef4444, #dc2626)';
+                submitBtn.style.opacity    = '1';
+                resetSubmitBtn();
+            }
+        })
+        .catch(error => {
+            console.error('Error submitting form:', error);
+            submitBtn.innerHTML = 'Connection Error <i class="fas fa-wifi"></i>';
+            submitBtn.style.background = 'linear-gradient(135deg, #f59e0b, #d97706)';
+            submitBtn.style.opacity    = '1';
+            resetSubmitBtn();
+        });
     });
 }
 
