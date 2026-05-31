@@ -1294,9 +1294,9 @@ img { max-width: 100%; display: block; }
 /* ─── Responsive ─────────────────────────────────────────────────────────── */
 @media (max-width: 1024px) {
     .hero-content  { grid-template-columns: 1fr; gap: 4rem; }
-    .hero-image-wrap { display: none; }
+    .hero-image-wrap { display: flex; justify-content: center; }
     .about-grid   { grid-template-columns: 1fr; }
-    .about-image  { display: none; }
+    .about-image  { display: flex; justify-content: center; order: -1; }
     .contact-grid { grid-template-columns: 1fr; }
     .stats-grid   { grid-template-columns: repeat(2, 1fr); }
 }
@@ -1533,7 +1533,7 @@ img { max-width: 100%; display: block; }
 
 /* ─── Interactive BI Dashboard ─────────────────────────────────────────── */
 .dashboard-wrapper {
-    margin-top: 5rem;
+    margin-top: 1.5rem;
     padding: 3rem 2.5rem;
     background: var(--bg-card);
     border: 1px solid var(--border);
